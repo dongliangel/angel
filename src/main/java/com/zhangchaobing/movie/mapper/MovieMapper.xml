@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhangchaobing.movie.mapper.MovieMapper">
+ 
+  <select id="getlist" resultType="Map">
+ SELECT a.*,GROUP_CONCAT(b.tlei) q  from movie a  LEFT JOIN movie_type c on a.mid=c.mid LEFT JOIN type b on c.tid=b.tid 
+  where  mname like '%${mname}%'
+   group by a.mid
+  </select>
+ <select id="gettype" resultType="Type">
+ select * from type
+ 
+ </select>
+	
+	<insert id="addm" keyProperty="mid" useGeneratedKeys="true" >
+	
+	insert into  movie (mname,juq,dector,fdate) values(#{mname},#{juq},#{dector},#{fdate})
+	
+	</insert>
+	<insert id="addt">
+	insert into movie_type (mid,tid) values(#{mid},#{tid})
+	
+	</insert>
+	<delete id="deleteid">
+	delete from movie where mid=#{mid}
+	
+	</delete>
+	<delete id="delete">
+	delete from movie_type where mid in(#{mid})
+	
+	</delete>
+
+ <select id="getid" resultType="Movie">
+  select * from movie where mid=#{mid}
+ </select>
+ <update id="update">
+ update movie set mname=#{mname},juq=#{juq},dector=#{dector},fdate=#{fdate} where mid=#{mid}
+ </update>
+</mapper>
